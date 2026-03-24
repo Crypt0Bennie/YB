@@ -1,5 +1,12 @@
-import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
-import "@uniswap/v3-periphery/contracts/libraries/OracleLibrary.sol";
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.5.0 <0.8.0;
+import '@uniswap/v3-core/contracts/libraries/FullMath.sol';
+import '@uniswap/v3-core/contracts/libraries/TickMath.sol';
+import '@uniswap/v3-core/contracts/libraries/FixedPoint96.sol';
+import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+
+contract getPoolDetails {
+
 
 function getTWAP(address pool, uint32 twapInterval) external view returns (uint256 price) {
     uint32[] memory secondsAgos = new uint32[](2);
@@ -13,4 +20,5 @@ function getTWAP(address pool, uint32 twapInterval) external view returns (uint2
     // Convert tick to price (token1 / token0, adjusted for decimals)
     uint160 sqrtPriceX96 = TickMath.getSqrtRatioAtTick(averageTick);
     price = FullMath.mulDiv(sqrtPriceX96, sqrtPriceX96, FixedPoint96.Q96);  // price in Q96 format
+ }
 }
